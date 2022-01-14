@@ -3,7 +3,11 @@ const bodyParser=require("body-parser");
 const multer=require("multer");
 const ejs= require("ejs");
 const req = require("express/lib/request");
+const mongoose=require("mongoose");
+const fs=require("fs");
+const path=require("path");
 const connection=require("./database/connection");
+const model=require("./database/model");
 
 const app= express();
 app.use(bodyParser.json());
@@ -24,26 +28,43 @@ var storage = multer.diskStorage({
 });  
 var upload = multer({storage:storage});
 
-var imgs=[];
-
 // var data;
 
 app.get("/",function(req,res){
-    res.render("index",{img:imgs});
+    model.find({},function(err,d){
+        if(err)console.log("error in finding...");
+        else{
+            console.log(d.name);
+            res.render("index",{img:d});
+        }
+    })
 });
 
 app.get("/download/:img",function(req,res){
     const file = `./public/uploads/${req.params.img}`;
+    console.log(req.params.img);
     res.download(file);
 });
 
-app.get("/:name",function(req,res){
-    res.render("image",{img:req.params.name});
-});
-
 app.post("/post",upload.single("uploaded_file"),function(req,res){
-    imgs.push(req.file.filename);
-    res.redirect("/");
+    var obj={
+        name:req.file.filename,
+        img:{
+            data: fs.readFileSync(path.join(__dirname+"/public/uploads/"+req.file.filename)),
+            contentType:'image/png'
+        }
+    }
+
+    model.create(obj,function(err,item){
+        if(err){
+            console.log("error in creating");
+        }else{
+            res.redirect("/");
+        }
+    })
+
+    // imgs.push(req.file.filename);
+    // res.redirect("/");
 });
 
 let port=process.env.PORT;

@@ -26,9 +26,9 @@
 
     <% img.forEach(i=>{ %>
       <div class="imgs">
-        <img src="/uploads/<%= i %>" alt="loding....." id="<%= i %>" class="img">
+        <img src="data:i/<%= i.img.contentType %>;base64, <%=i.img.data.toString('base64')%>" alt="loding....." id="<%= i %>" class="img">
         <br>
-        <a href="/download/<%= i %>">Download</a>
+        <a href="/download/<%= i.name %>">Download</a>
       </div>
       <% }) %>
 

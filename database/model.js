@@ -1,3 +1,5 @@
+const mongoose=require("mongoose");
+
 var Schema = new mongoose.Schema({
     name: String,
     img:
@@ -6,3 +8,6 @@ var Schema = new mongoose.Schema({
         contentType: String
     }
 });
+
+
+module.exports=new mongoose.model("Image",Schema);
