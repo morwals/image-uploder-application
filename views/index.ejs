@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="nav">
+
+    <h1>Upload an Image or Wallpaper</h1>
+    
+    <div class="form">
+      <form action="/post" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+          <input type="file" name="uploaded_file">
+          <input type="submit" value="Upload">            
+        </div>
+      </form>  
+    </div>
+    
+  </div>
+
+    <% img.forEach(i=>{ %>
+      <div class="imgs">
+        <img src="/uploads/<%= i %>" alt="loding....." id="<%= i %>" class="img">
+        <br>
+        <a href="/download/<%= i %>">Download</a>
+      </div>
+      <% }) %>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+      <script src="js/js.js"></script>
+</body>
+</html>
